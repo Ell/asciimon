@@ -3,6 +3,11 @@
 <title>Twitch Plays Pokemon ASCII Edition</title>
 <style>
 
+#chat {
+    border: 1px dashed;
+    padding: 15px 15px 15px 15px;
+}
+
 #data {
     font-size: 1.0em;
     border: 1px dashed;
@@ -21,6 +26,14 @@
     <h1>Twitch Plays Pokemon ASCII Edition</h1>
 
     <pre id="data">{{ dithered }}</pre>
+     
+    <iframe frameborder="0" 
+        scrolling="no" 
+        id="chat" 
+        src="https://twitch.tv/chat/embed?channel=twitchplayspokemon&amp;popout_chat=true/" 
+        height="400" 
+        width="335">
+    </iframe> 
 </div>
 
 <script src="/static/js/reconnecting-websocket.js"></script>
