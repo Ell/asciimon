@@ -1,0 +1,8 @@
+pillow
+livestreamer
+requests
+numpy
+gunicorn
+flask
+flask-sockets
+redis
