@@ -7,10 +7,12 @@ pokestream.onmessage = function(message) {
     var args = message.data.split('\t');
     var data_el = document.getElementById('data');
     var text = data_el.textContent;
+    var pos = 0;
     for (var i = 0; i < args.length; i += 2) {
-        var prefix = +args[i];
+        pos += +args[i];
         var data = args[i + 1];
-        text = text.substring(0, prefix) + data + text.substring(prefix+data.length);
+        text = text.substring(0, pos) + data + text.substring(pos+data.length);
+        pos += data.length;
     }
     data_el.textContent = text.substring(0, 18 * 21 - 1);
 }
