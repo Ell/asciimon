@@ -6,8 +6,6 @@ import json
 import pokr
 import redis
 
-from websocket import PokeSocket
-
 
 r = redis.Redis()
 
