@@ -16,12 +16,13 @@ class FilteredPrinter(object):
         data.pop('frame')
         r.publish('pokemon', json.dumps(data))
         r.set('pokemon.dithered', data['dithered'])
-        print data['timestamp']
+        print data['timestamp'], len(data['dithered_delta'])
 
 
-proc = pokr.StreamProcessor(only_changes=False, frame_skip=1)
+proc = pokr.StreamProcessor(only_changes=False, frame_skip=0)
 proc.add_handler(pokr.StringDeltaCompressor('dithered').handle)
 proc.add_handler(FilteredPrinter().printer)
+proc.add_handler(pokr.LogHandler('text', 'frames.log').handle)
 proc.run()
 
 while True:
