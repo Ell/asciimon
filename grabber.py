@@ -19,7 +19,7 @@ class FilteredPrinter(object):
         print data['timestamp']
 
 
-proc = pokr.StreamProcessor(only_changes=False)
+proc = pokr.StreamProcessor(only_changes=False, frame_skip=1)
 proc.add_handler(pokr.StringDeltaCompressor('dithered').handle)
 proc.add_handler(FilteredPrinter().printer)
 proc.run()

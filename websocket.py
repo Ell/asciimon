@@ -9,6 +9,7 @@ class PokeSocket(object):
         self.clients = []
         self.pubsub = self.red.pubsub()
         self.pubsub.subscribe(chan)
+        self.dithered = ''
 
     def data_loop(self):
         for message in self.pubsub.listen():
@@ -21,6 +22,8 @@ class PokeSocket(object):
 
     def register(self, client):
         self.clients.append(client)
+        print 'client registered %d' % len(self.clients)
+        gevent.spawn(self.send, client, '0\t' + self.dithered)
 
     def send(self, client, data):
         try:
@@ -35,11 +38,13 @@ class PokeSocket(object):
 
             items = json.loads(data)
             data = items['dithered_delta']
+            self.dithered = items['dithered']
 
             if data != '':
                 for client in self.clients:
                     # TODO: figure out how to mark a client as new and send a full update
-                    gevent.spawn(self.send, client, data)
+                    self.send(client, data)
+                    #gevent.spawn(self.send, client, data)
 
     def start(self):
         gevent.spawn(self.run)

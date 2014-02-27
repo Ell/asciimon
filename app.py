@@ -27,12 +27,10 @@ def index():
 
 @sockets.route('/pokemon')
 def pokestream(ws):
-    print "stream open"
-
     pokesocket.register(ws)
 
     while True:
-        gevent.sleep()
+        gevent.sleep(120)
 
 
 if __name__ == '__main__':
