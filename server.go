@@ -97,7 +97,7 @@ func (self *Server) ReadFrames() {
 	}
 
 	psc := redis.PubSubConn{c}
-	psc.Subscribe("pokemon")
+	psc.Subscribe("pokemon.streams.frames")
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
