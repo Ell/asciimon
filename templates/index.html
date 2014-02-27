@@ -1,62 +1,136 @@
 <!doctype html>
+<html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Twitch Plays Pokemon ASCII Edition</title>
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
 <style>
-
-body {
-    background-color: #F5F5F5;
+#header {
+    text-align: center;
 }
 
-#pokemon {
-    position: relative;
-    float: left;
-    margin-left: 30%;
+h1 {
+    font-size: 1.5em;
 }
 
+#created-by {
+    text-align: center;
+    margin-top: 0;
+}
+
+#created-by small {
+    font-size: .5em;
+}
+
+#gameboy-container {
+    padding: 0px;
+}
 
 #data {
-    height: 300px;
-    width: 250px;
     position: absolute;
-    top: 62px;
-    left: 85px;
+
+    overflow: hidden;
+
     background-color: #9dba5e;
-    padding-left: 20px;
-    text-shadow: 1px 1px #696969;
+
+    width: 53%;
+    height: 39%;
+    margin-left: 24.4%;
+    margin-top: 20.5%;
+    padding: 1% 0 0 0;
+
+    text-align: center;
     font-size: 1.0em;
-    line-height: 15px;
+    line-height: 1em;
+    text-shadow: 1px 1px #696969;
+
+    z-index: -1;
+}
+
+@media(max-width:767px) {
+    body {
+        width: 768px;
+        font-size: 16px;
+    }
+
+     #data {
+        font-size: 17px;
+        line-height: .91em;
+        padding-top: 0;
+    }
+}
+
+@media(min-width:768px) {
+    body {
+        font-size: 19px;
+    }
+
+     #data {
+        font-size: 11px;
+        line-height: .91em;
+        padding-top: 0;
+    }
+}
+
+@media(min-width:992px) {
+    body {
+        font-size: 26px;
+    }
+
+     #data {
+        font-size: 15px;
+        line-height: .8em;
+        padding-top: .5em;
+    }
+}
+
+@media(min-width:1200px) {
+    body {
+        font-size: 32px;
+    }
+
+     #data {
+        font-size: 17px;
+        line-height: .9em;
+    }
 }
 
 #gameboy {
-    position: relative;
-    z-index: 100;
+    -webkit-filter: drop-shadow(6px 6px 5px rgba(0,0,0,0.5));
+    width: 100%;
 }
 
 #about {
-    float: left;
-    margin-left: 40px;
-    width: 400px;
+    padding-left: 1em;
+    text-align: justify;
 }
-
 </style>
 
 </head>
 
 <body>
 
-<div id="wrapper">
-    <h1 align="center">Twitch Plays Pokemon<br/>ASCII Edition</h1>
-
-    <div id="pokemon">
-        <img id="gameboy" src="/static/img/gamebot.png" />
-        <pre id="data">{{ dithered }}</pre>
+<div class="container">
+    <div id="header" class="page-header">
+        <h1>Twitch Plays Pokemon<br>
+            <small>ASCII Edition</small>
+        </h1>
     </div>
 
-    <div id="about">
-            <p>Created by: <a href="http://github.com/rmmh">rmmh</a> and <a href="http://github.com/ell">ell</a></p>
-            <hr />
+    <div id="gameboy-container" class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3">
+        <pre id="data">{{ dithered }}</pre>
+        <img id="gameboy" src="/static/img/gamebot.png">
+    </div>
+
+    <div class="clearfix visible-xs"></div>
+
+    <div id="about" class="col-sm-8 col-xs-12">
             <p><a href="http://twitch.tv/twitchplayspokemon">Twitch Plays Pokemon</a> is a stream where thousands of people try to collaboratively complete Pokemon by providing button input on chat. This site takes that stream, runs it through character recognition, and displays it live over websockets using Python, OpenCV, Flask, and a little bit of redis. All of the code is opensource and can be found on GitHub at <a href="http://github.com/ell/asciimon">ell/asciimon</a>. Most of the interesting stuff is found in the <a href="http://github.com/rmmh/pokr">rmmh/pokr</a> repository.</p>
             <p>Hosting is 50% of a $5 DigitalOcean Box's CPU and 250GB/mo bandwidth to pull down the twitch stream. Not too bad in my opinion.</p>
+            <hr>
+            <h1 id="created-by">
+                <small>Created by: <a href="http://github.com/rmmh">rmmh</a> and <a href="http://github.com/ell">ell</a></small>
+            </h1>
     </div>
 </div>
 
@@ -70,6 +144,9 @@ body {
     ga('send', 'pageview');
 </script>
 
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="/static/js/reconnecting-websocket.js"></script>
 <script src="/static/js/main.js"></script>
 </body>
+</html>
