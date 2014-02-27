@@ -1,0 +1,66 @@
+<!doctype html>
+<head>
+<title>Twitch Plays Pokemon ASCII Edition</title>
+<style>
+
+body {
+    background-color: #F5F5F5;
+}
+
+#pokemon {
+    position: relative;
+    margin-left: 35%;
+}
+
+
+#data {
+    font-size: 1.0em;
+    height: 300px;
+    width: 250px;
+    position: absolute;
+    top: 62px;
+    background-color: #9dba5e;
+    left: 85px;
+    padding-left: 20px;
+    text-shadow: 1px 1px #696969;
+    display: inline;
+    line-height: 15px;
+}
+
+#gameboy {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+#about {
+    margin-right: 50%;
+    width: 200px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 align="center">Twitch Plays Pokemon<br/>ASCII Edition</h1>
+
+<div id="pokemon">
+    <img id="gameboy" src="/static/img/gamebot.png" />
+    <pre id="data">{{ dithered }}</pre>
+</div>
+
+<div id="about">
+        <p>Created by: <a href="http://github.com/rmmh">rmmh</a> and <a href="http://github.com/ell">ell</a></p>
+        <hr />
+        <h3>About</h3>
+        <hr />
+        <p><a href="http://twitch.tv/twitchplayspokemon">Twitch Plays Pokemon</a> is a stream on twitch.tv where thousands of people try to collaboratively complete Pokemon. This site takes that stream, runs it through some ocr, and displays it live over websockets using OpenCV, Python, Flask, and a little bit of redis. All of the code is opensource and can be found at <a href="http://github.com/ell/asciimon">GitHub</a>. Most of the interesting stuff is found in rmmh's repository over at <a href="http://github.com/rmmh/pokr">his GitHub</a>.</p>
+        <p>Hosting is 50% of a $5 DigitalOcean Box's CPU and 250GB/mo bandwidth to pull down the twitch stream. Not too bad in my opinion.</p>
+    </div>
+
+<script src="/static/js/reconnecting-websocket.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
