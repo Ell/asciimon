@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import time
 import json
 
@@ -24,10 +26,5 @@ proc.add_handler(pokr.StringDeltaCompressor('dithered').handle)
 proc.add_handler(FilteredPrinter().printer)
 proc.run()
 
-
-time.sleep(5)
-
-
-print '\x1b[2J'
 while True:
     time.sleep(1)
