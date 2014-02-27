@@ -148,7 +148,6 @@ func (self *Client) listenRead() {
 	for {
 		select {
 		case <-self.done:
-			self.server.removeClient <- self
 			return
 		default:
 			var msg []byte
