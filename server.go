@@ -56,21 +56,33 @@ func (self *Server) Listen() {
 			c.send <- self.frame
 			log.Println("Added new client:", len(self.clients), "total.")
 		case c := <-self.removeClient:
+			self.disconnectClient(c)
 			log.Println("Removed a client:", len(self.clients), "total.", runtime.NumGoroutine(), " goroutines left.")
-			for i := range self.clients {
-				if self.clients[i] == c {
-					close(c.done)
-					c.conn.Close()
-					self.clients = append(self.clients[:i], self.clients[i+1:]...)
-					break
-				}
-			}
 		case msg := <-self.sendAll:
-			for _, c := range self.clients {
-				c.send <- msg
+			for i := 0; i < len(self.clients); i++ {
+				c := self.clients[i]
+				select {
+				case c.send <- msg:
+				default:
+					self.disconnectClient(c)
+					i--  // self.clients[i] was just deleted
+					log.Println("Removed a slow client:", len(self.clients), "total.", runtime.NumGoroutine(), " goroutines left.")
+				}
 			}
 		}
 	}
+}
+
+func (self *Server) disconnectClient(c *Client) bool {
+	for i := range self.clients {
+		if self.clients[i] == c {
+			close(c.done)
+			c.conn.Close()
+			self.clients[i], self.clients = self.clients[len(self.clients)-1], self.clients[:len(self.clients)-1]
+			return true
+		}
+	}
+	return false
 }
 
 type Frame struct {
@@ -85,7 +97,7 @@ func (self *Server) ReadFrames() {
 	}
 
 	psc := redis.PubSubConn{c}
-	psc.Subscribe("pokemon")
+	psc.Subscribe("pokemon.streams.frames")
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
@@ -112,7 +124,7 @@ type Client struct {
 	done   chan bool
 }
 
-const channelBufSize = 200
+const channelBufSize = 100
 
 // Create new chat client.
 func NewClient(ws *websocket.Conn, server *Server) *Client {
@@ -148,7 +160,6 @@ func (self *Client) listenRead() {
 	for {
 		select {
 		case <-self.done:
-			self.server.removeClient <- self
 			return
 		default:
 			var msg []byte
