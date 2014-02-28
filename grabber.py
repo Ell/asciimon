@@ -26,7 +26,8 @@ class DialogPusher(object):
 box_reader = pokr.BoxReader()
 box_reader.add_dialog_handler(DialogPusher().handle)
 
-proc = pokr.StreamProcessor(frame_skip=0)
+proc = pokr.StreamProcessor()
+proc.add_handler(pokr.ScreenCompressor(fname='frames/frames.%y%m%d-%H%M.raw.gz').handle)
 proc.add_handler(pokr.StringDeltaCompressor('dithered').handle)
 proc.add_handler(box_reader.handle)
 proc.add_handler(FilteredPrinter().printer)
